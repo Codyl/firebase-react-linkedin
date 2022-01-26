@@ -9,10 +9,6 @@
   width: 450px;
 }
 
-.login.button {
-  float: right;
-}
-
 .ui.form input[type=text],
 .ui.form input[type=password],
 .ui.form select {
@@ -24,4 +20,16 @@
   position: relative;
   top: 4px;
   right: 15px;
+}
+
+.actions {
+  text-align: right;
+}
+
+.actions button {
+  margin-right: 5px;
+}
+
+.actions a {
+  margin-left: 5px;
 }

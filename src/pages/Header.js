@@ -7,7 +7,7 @@ export default function Header() {
     const { user } = useSession();
     const logoutUser = async () => {
         await logout();
-        history.push('/signup')
+        history.push('/login')
 
     };
   return (
