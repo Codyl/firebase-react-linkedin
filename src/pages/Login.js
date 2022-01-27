@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {useForm} from 'react-hook-form';
-import { login } from '../firebase/auth';
+import { login, signInWithGoogle } from '../firebase/auth';
 import { Link } from 'react-router-dom';
 
 function Login(props) {
@@ -49,6 +49,7 @@ function Login(props) {
                 or
                 <Link to="/signup">Sign up</Link>
             </div>
+            <button type='button' onClick={signInWithGoogle}>Sign in with Google</button>
           </form>
         </div>
       </div>
