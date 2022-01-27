@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import {useForm} from 'react-hook-form';
-import { login, signInWithGoogle } from '../firebase/auth';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { login, signInWithGoogle } from "../firebase/auth";
+import { Link } from "react-router-dom";
 
 function Login(props) {
-    const { register, handleSubmit, reset } = useForm();
-    const [isLoading, setLoading] = useState(false);
+  const { register, handleSubmit, reset } = useForm();
+  const [isLoading, setLoading] = useState(false);
 
-    const onSubmit = async data => {
-        let user;
-        setLoading(true);
-        try {
-            user = await login(data);
-            reset();
-        } catch(error) {
-            console.log(error);
-        }
-        if(user) {
-          props.history.push(`/profile/${user.uid}`)
-        } else {
-          setLoading(false);
-        }
+  const onSubmit = async (data) => {
+    let user;
+    setLoading(true);
+    try {
+      user = await login(data);
+      reset();
+    } catch (error) {
+      console.log(error);
     }
+    if (user) {
+      props.history.push(`/profile/${user.uid}`);
+    } else {
+      setLoading(false);
+    }
+  };
 
-    const formClassName = `ui form ${isLoading ? 'loading' : ''}`
-    
+  const formClassName = `ui form ${isLoading ? "loading" : ""}`;
+
   return (
     <div className="login-container">
       <div className="ui card login-card">
@@ -33,23 +33,35 @@ function Login(props) {
             <div className="field">
               <label>
                 Email
-                <input type="email" name="email" placeholder="Email" {...register('email')} />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  {...register("email")}
+                />
               </label>
             </div>
             <div className="field">
               <label>
                 Password
-                <input type="password" name="password" placeholder="Password" {...register('password')} />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  {...register("password")}
+                />
               </label>
             </div>
             <div className="field actions">
-                <button className="ui primary button login" type="submit">
+              <button className="ui primary button login" type="submit">
                 Login
-                </button>
-                or
-                <Link to="/signup">Sign up</Link>
+              </button>
+              or
+              <Link to="/signup">Sign up</Link>
             </div>
-            <button type='button' onClick={signInWithGoogle}>Sign in with Google</button>
+            <button type="button" onClick={signInWithGoogle}>
+              Sign in with Google
+            </button>
           </form>
         </div>
       </div>
@@ -58,4 +70,3 @@ function Login(props) {
 }
 
 export default Login;
-
