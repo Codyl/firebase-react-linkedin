@@ -6,15 +6,15 @@ import { firestore } from "../firebase/config";
 import { updateUserDocument } from "../firebase/user";
 import { ProfileImage } from "../ProfileImage";
 
-const Profile = () => {
+const Profile = (props) => {
   const user = useSession().user;
   const params = useParams();
   const { register, setValue, handleSubmit } = useForm();
   const [userDocument, setUserDocument] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
+console.log('made it', props)
   useEffect(() => {
-    const docRef = firestore.doc(`/users/${user.uid}`);
+    const docRef = firestore.doc(`/users/${props.match.params.uid}`);
     //Gets the data once for the uid but does not update to realtime changes
     // docRef.get().then(document => {
     //     if(document.exists) {
@@ -23,6 +23,7 @@ const Profile = () => {
     // });
     //Listens to changes to the firebase snapshot and sets the firestore document
     const unsubscribe = docRef.onSnapshot((doc) => {
+      console.log(doc.exists)
       if (doc.exists) {
         const documentData = doc.data();
         //sends data to firestore through user.js
@@ -33,7 +34,7 @@ const Profile = () => {
       }
     });
     return unsubscribe;
-  }, [user.uid, setValue, params.id]);
+  }, [props.match.params.uid, setValue, params.id]);
 
   const onSubmit = async (data) => {
     try {

@@ -5,8 +5,10 @@ import { useSession } from "./firebase/userProvider";
 export const ProfileImage = ({ id }) => {
   const fileInput = useRef(null);
   const [imageUrl, setImageUrl] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0);
+
   const user = useSession();
-  console.log(user.photoURL)
+  // console.log(user.photoURL)
 
   useEffect(() => {
       getDownloadURL(id)
@@ -14,11 +16,18 @@ export const ProfileImage = ({ id }) => {
   }, [id]);
 
   const fileChange = async (files) => {
-    const ref = await uploadImage(id, files[0]);
+    const ref = await uploadImage(id, files[0], updateProgress);
     console.log(ref)
     const downloadUrl = await ref.getDownloadURL();
+    console.log(downloadUrl)
+    if(!!downloadUrl)
     setImageUrl(downloadUrl);
   };
+
+  const updateProgress = snapshot => {
+    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    setUploadProgress(progress);
+  }
 
   return (
     <div className="four wide column profile-image">
@@ -30,6 +39,7 @@ export const ProfileImage = ({ id }) => {
         ref={fileInput}
         onChange={(e) => fileChange(e.target.files)}
       />
+      <progress style={{width: '100%0'}} max={"100"} value={uploadProgress}></progress>
       <button
         className="ui grey button upload-button"
         onClick={() => fileInput.current.click()}
